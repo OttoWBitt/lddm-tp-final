@@ -38,31 +38,45 @@ public class NewProduct extends AppCompatActivity {
         btnEmprestar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                if(txtName.getText().length() == 0){
+                    txtName.setError("Ponha um nome!");
+                }
+                else if(txtDescription.getText().length() == 0){
+                    txtDescription.setError("Ponha uma descriçao!");
+                }
+                else if(txtPhotoUrl.getText().length() == 0){
+                    txtPhotoUrl.setError("Ponha um link para foto!");
+                }
+                else if (txtLocation.getText().length() == 0){
+                    txtLocation.setError("Ponha um local!");
+                }
+                else{
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                DatabaseReference dbRef = database.getReference();
-                DatabaseReference productRef = database.getReference("products/");
+                    DatabaseReference dbRef = database.getReference();
+                    DatabaseReference productRef = database.getReference("products/");
 
-                String key = dbRef.child("products").push().getKey();
-                Product product = new Product(
-                        key,
-                        txtName.getText().toString(),
-                        txtDescription.getText().toString(),
-                        txtPhotoUrl.getText().toString(),
-                        currentUser.getDisplayName(),
-                        currentUser.getUid(),
-                        txtLocation.getText().toString());
-                Map<String, Object> productValues = product.toMap();
+                    String key = dbRef.child("products").push().getKey();
+                    Product product = new Product(
+                            key,
+                            txtName.getText().toString(),
+                            txtDescription.getText().toString(),
+                            txtPhotoUrl.getText().toString(),
+                            currentUser.getDisplayName(),
+                            currentUser.getUid(),
+                            txtLocation.getText().toString());
+                    Map<String, Object> productValues = product.toMap();
 
-                Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put(key, productValues);
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put(key, productValues);
 
-                productRef.updateChildren(childUpdates);
+                    productRef.updateChildren(childUpdates);
 
-                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(mainActivity);
-                Toast.makeText(getApplicationContext(), "You just added it!", Toast.LENGTH_LONG).show();
+                    Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(mainActivity);
+                    Toast.makeText(getApplicationContext(), "You just added it!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

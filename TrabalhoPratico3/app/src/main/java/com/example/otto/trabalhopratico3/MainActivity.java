@@ -145,18 +145,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.listOfItens) {
+            Intent backToMain = new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(backToMain);
+        } else if (id == R.id.takenItens) {
+            Intent listaDeItemsPegos = new Intent(getApplicationContext(),ListOfTakenItens.class);
+            startActivity(listaDeItemsPegos);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
