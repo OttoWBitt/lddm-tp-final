@@ -1,5 +1,7 @@
 package com.example.otto.trabalhopratico3;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,7 +24,7 @@ public class OrderedProductDetails extends AppCompatActivity {
 
     String id, name, author, locator, location, photoUrl, description;
     TextView txtName, txtAuthor, txtReceiver, txtDescription, txtLocation, txtPhotoUrl;
-    Button btnOrder;
+    Button btnOrder, btnVerNoMapa;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
@@ -59,23 +61,16 @@ public class OrderedProductDetails extends AppCompatActivity {
         txtReceiver = findViewById(R.id.txtReceiver);
         txtReceiver.setText("Locador: " + locator);
 
-        btnOrder = findViewById(R.id.btnOrder);
-        btnOrder.setOnClickListener(new View.OnClickListener() {
+        btnVerNoMapa = findViewById(R.id.btnVerNoMapa);
+        btnVerNoMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                DatabaseReference dbRef = database.getReference();
-                DatabaseReference ordersRef = database.getReference("orders/");
-
-                String key = dbRef.child("orders").push().getKey();
-                Order order = new Order(key, id, name, location, author, FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), description, photoUrl);
-                Map<String, Object> productValues = order.toMap();
-
-                Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put(key, productValues);
-
-                ordersRef.updateChildren(childUpdates);
+                Uri gmmIntentUri = Uri.parse("geo:37.7749,-122.4194");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
             }
         });
 
