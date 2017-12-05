@@ -16,19 +16,23 @@ public class Order {
     private String withDrawalPlace;
     private String productOwner;
     private String productReceiver;
+    private String productDescription;
+    private String productPhotoUrl;
 
 
     public Order() {
-        this("", "","","","", "");
+        this("", "","","","", "", "", "");
     }
 
-    public Order(String orderId, String productId, String productName, String withDrawalPlace, String productOwner, String productReceiver) {
+    public Order(String orderId, String productId, String productName, String withDrawalPlace, String productOwner, String productReceiver, String productDescription, String productPhotoUrl) {
         this.orderId = orderId;
         this.productId = productId;
         this.productName = productName;
         this.withDrawalPlace = withDrawalPlace;
         this.productOwner = productOwner;
         this.productReceiver = productReceiver;
+        this.productDescription = productDescription;
+        this.productPhotoUrl = productPhotoUrl;
     }
 
     public String getProductId() {
@@ -71,6 +75,10 @@ public class Order {
         this.productName = productName;
     }
 
+    public String toString() {
+        return this.getProductName();
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -80,7 +88,24 @@ public class Order {
         result.put("location", withDrawalPlace);
         result.put("productOwner", productOwner);
         result.put("productReceiver", productReceiver);
-
+        result.put("productDescription", productDescription);
+        result.put("productPhotoUrl", productPhotoUrl);
         return result;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public String getProductPhotoUrl() {
+        return productPhotoUrl;
+    }
+
+    public void setProductPhotoUrl(String productPhotoUrl) {
+        this.productPhotoUrl = productPhotoUrl;
     }
 }

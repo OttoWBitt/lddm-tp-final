@@ -29,6 +29,7 @@
         <activity android:name=".NewUserActivity" />
         <activity android:name=".NewProduct" />
         <activity android:name=".ListOfTakenItens"></activity>
+        <activity android:name=".OrderedProductDetails"></activity>
     </application>
 
 </manifest>

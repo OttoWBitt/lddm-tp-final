@@ -19,24 +19,24 @@ import java.util.ArrayList;
 
 public class ListOfTakenItens extends AppCompatActivity {
 
-    ArrayAdapter<Product> adapter;
-    ArrayList<Product> itemList;
+    ArrayAdapter<Order> adapter;
+    ArrayList<Order> itemList;
 
-    public ArrayList<Product> getProductList() {
+    public ArrayList<Order> getOrderList() {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference dbRef = database.getReference();
         DatabaseReference productRef = database.getReference("orders/");
 
-        ArrayList<Product> orderList = new ArrayList<>();
+        ArrayList<Order> orderList = new ArrayList<>();
 
         productRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 itemList.clear();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Product product1 = postSnapshot.getValue(Product.class);
-                    itemList.add(product1);
+                for (DataSnapshot orderSnapshot: dataSnapshot.getChildren()) {
+                    Order order1 = orderSnapshot.getValue(Order.class);
+                    itemList.add(order1);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -61,19 +61,18 @@ public class ListOfTakenItens extends AppCompatActivity {
         listV.setAdapter(adapter);
 
         itemList.clear();
-        itemList.addAll(getProductList());
+        itemList.addAll(getOrderList());
         adapter.notifyDataSetChanged();
 
         listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent productDetails = new Intent(getApplicationContext(),ProductDetails.class);
-                productDetails.putExtra("productName", itemList.get(i).getName());
-                productDetails.putExtra("productDescription", itemList.get(i).getDescription());
-                productDetails.putExtra("productId", itemList.get(i).getId());
-                productDetails.putExtra("productAuthor", itemList.get(i).getAuthor());
-                productDetails.putExtra("productPhotoUrl", itemList.get(i).getPhotoUrl());
-                productDetails.putExtra("productLocation", itemList.get(i).getLocation());
+                Intent productDetails = new Intent(getApplicationContext(),OrderedProductDetails.class);
+                productDetails.putExtra("productName", itemList.get(i).getProductName());
+                productDetails.putExtra("productReceiver", itemList.get(i).getProductReceiver());
+                productDetails.putExtra("productId", itemList.get(i).getProductId());
+                productDetails.putExtra("productAuthor", itemList.get(i).getProductOwner());
+                productDetails.putExtra("productLocation", itemList.get(i).getWithDrawalPlace());
 
                 startActivity(productDetails);
             }

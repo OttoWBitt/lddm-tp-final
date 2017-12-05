@@ -1,6 +1,5 @@
 package com.example.otto.trabalhopratico3;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,10 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ProductDetails extends AppCompatActivity {
+public class OrderedProductDetails extends AppCompatActivity {
 
-    String id, name, author, location, photoUrl, description;
-    TextView txtName, txtAuthor, txtDescription, txtLocation, txtPhotoUrl;
+    String id, name, author, locator, location, photoUrl, description;
+    TextView txtName, txtAuthor, txtReceiver, txtDescription, txtLocation, txtPhotoUrl;
     Button btnOrder;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -30,9 +29,9 @@ public class ProductDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_ordered_product_details);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -42,6 +41,7 @@ public class ProductDetails extends AppCompatActivity {
         id = getInfo.getString("productId");
         name = getInfo.getString("productName");
         author = getInfo.getString("productAuthor");
+        locator = getInfo.getString("productReceiver");
         location = getInfo.getString("productLocation");
         photoUrl = getInfo.getString("productPhotoUrl");
         description = getInfo.getString("productDescription");
@@ -56,6 +56,8 @@ public class ProductDetails extends AppCompatActivity {
         txtLocation.setText("Local de retirada: " + location);
         txtPhotoUrl = findViewById(R.id.txtPhotoUrl);
         txtPhotoUrl.setText("URL da foto: " + photoUrl);
+        txtReceiver = findViewById(R.id.txtReceiver);
+        txtReceiver.setText("Locador: " + locator);
 
         btnOrder = findViewById(R.id.btnOrder);
         btnOrder.setOnClickListener(new View.OnClickListener() {
@@ -74,9 +76,6 @@ public class ProductDetails extends AppCompatActivity {
                 childUpdates.put(key, productValues);
 
                 ordersRef.updateChildren(childUpdates);
-
-                Intent mainActivity = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(mainActivity);
             }
         });
 
